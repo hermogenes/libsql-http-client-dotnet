@@ -20,6 +20,7 @@
         <EnablePackageValidation>true</EnablePackageValidation>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <MinVerTagPrefix>v</MinVerTagPrefix>
     </PropertyGroup>
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
