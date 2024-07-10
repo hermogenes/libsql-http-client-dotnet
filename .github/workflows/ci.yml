@@ -9,6 +9,8 @@ on:
         default: false
         type: boolean
   push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -56,23 +58,28 @@ jobs:
           coverage-path: ./test/**/TestResults/**/coverage.opencover.xml
           coverage-threshold: 80
 
-      - run: dotnet pack --configuration Release --output ${{ github.workspace }}/nuget
+      - name: Pack NuGet packages
+        run: dotnet pack --configuration Release --output ${{ github.workspace }}/nuget
 
       # Publish the NuGet package as an artifact, so they can be used in the following jobs
-      - uses: actions/upload-artifact@v4
+      - name: Upload NuGet packages as artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: nuget
           if-no-files-found: error
           retention-days: 7
           path: ${{ github.workspace }}/nuget/*.nupkg
 
-      - uses: actions/github-script@v7
+      - name: Get packed files names
+        uses: actions/github-script@v7
         id: packed-files
         with:
           script: |
             const globber = await glob.create('${{ github.workspace }}/nuget/*.nupkg')
             const files = await globber.glob()
-            return JSON.stringify(files.map(file => file.replace('${{ github.workspace }}/nuget/', '')))
+            var result = JSON.stringify(files.map(file => file.replace('${{ github.workspace }}/nuget/', '')))
+            core.info(`Packed files: ${result}`)
+            return result
           result-encoding: string
 
   publish:
@@ -84,7 +91,8 @@ jobs:
       matrix:
         package: ${{fromJson(needs.build.outputs.packed-files)}}
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download NuGet packages
+        uses: actions/download-artifact@v4
         with:
           name: nuget
           path: ${{ github.workspace }}/nuget
@@ -97,5 +105,5 @@ jobs:
             7.0.x
             8.0.x
 
-      - name: Publish NuGet package
+      - name: Publish NuGet package (${{matrix.package}})
         run: dotnet nuget push ${{ github.workspace }}/nuget/${{matrix.package}}  --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
