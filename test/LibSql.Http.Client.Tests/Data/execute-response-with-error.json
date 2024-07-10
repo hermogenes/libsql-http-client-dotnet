@@ -1,0 +1,36 @@
+{
+  "sql": "SELECT * FROM wrong_table_name;",
+  "request": {
+    "requests": [
+      {
+        "type": "execute",
+        "stmt": {
+          "sql": "SELECT * FROM wrong_table_name;"
+        }
+      },
+      {
+        "type": "close"
+      }
+    ]
+  },
+  "response": {
+    "baton": null,
+    "base_url": null,
+    "results": [
+      {
+        "type": "error",
+        "error": {
+          "message": "SQLite error: no such table: wrong_table_name",
+          "code": "SQLITE_UNKNOWN"
+        }
+      },
+      {
+        "type": "ok",
+        "response": {
+          "type": "close"
+        }
+      }
+    ]
+  },
+  "expected": []
+}

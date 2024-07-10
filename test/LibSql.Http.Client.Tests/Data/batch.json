@@ -1,0 +1,603 @@
+[
+  [
+    {
+      "name": "Batch statements without transaction",
+      "transaction": 0,
+      "statements": [
+        {
+          "sql": "DELETE FROM my_table"
+        },
+        {
+          "sql": "INSERT INTO my_table (id, name, salary) VALUE (@id, @name, @salary)",
+          "named_args": [
+            {
+              "name": "id",
+              "type": "integer",
+              "value": 1,
+              "hrana_value": "1"
+            },
+            {
+              "name": "name",
+              "type": "text",
+              "value": "john"
+            },
+            {
+              "name": "salary",
+              "type": "float",
+              "value": 1000.50
+            }
+          ]
+        },
+        {
+          "sql": "UPDATE my_table SET name = ?, salary = ? WHERE id = ?",
+          "args": [
+            {
+              "name": "name",
+              "type": "text",
+              "value": "john doe"
+            },
+            {
+              "name": "salary",
+              "type": "float",
+              "value": 1000.50
+            },
+            {
+              "name": "id",
+              "type": "integer",
+              "value": 1,
+              "hrana_value": "1"
+            }
+          ]
+        }
+      ],
+      "request": {
+        "requests": [
+          {
+            "type": "batch",
+            "batch": {
+              "steps": [
+                {
+                  "stmt": {
+                    "sql": "DELETE FROM my_table"
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "INSERT INTO my_table (id, name, salary) VALUE (@id, @name, @salary)",
+                    "named_args": [
+                      {
+                        "name": "id",
+                        "value": {
+                          "type": "integer",
+                          "value": "1"
+                        }
+                      },
+                      {
+                        "name": "name",
+                        "value": {
+                          "type": "text",
+                          "value": "john"
+                        }
+                      },
+                      {
+                        "name": "salary",
+                        "value": {
+                          "type": "float",
+                          "value": 1000.50
+                        }
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 0
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "UPDATE my_table SET name = ?, salary = ? WHERE id = ?",
+                    "args": [
+                      {
+                        "type": "text",
+                        "value": "john doe"
+                      },
+                      {
+                        "type": "float",
+                        "value": 1000.50
+                      },
+                      {
+                        "type": "integer",
+                        "value": "1"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 1
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "name": "Batch statements with IMMEDIATE transaction (non-interactive)",
+      "transaction": 1,
+      "is_interactive": false,
+      "statements": [
+        {
+          "sql": "DELETE FROM my_table"
+        },
+        {
+          "sql": "INSERT INTO my_table (id, name, salary) VALUE (@id, @name, @salary)",
+          "named_args": [
+            {
+              "name": "id",
+              "type": "integer",
+              "value": 1,
+              "hrana_value": "1"
+            },
+            {
+              "name": "name",
+              "type": "text",
+              "value": "john"
+            },
+            {
+              "name": "salary",
+              "type": "float",
+              "value": 1000.50
+            }
+          ]
+        },
+        {
+          "sql": "UPDATE my_table SET name = ?, salary = ? WHERE id = ?",
+          "args": [
+            {
+              "name": "name",
+              "type": "text",
+              "value": "john doe"
+            },
+            {
+              "name": "salary",
+              "type": "float",
+              "value": 1000.50
+            },
+            {
+              "name": "id",
+              "type": "integer",
+              "value": 1,
+              "hrana_value": "1"
+            }
+          ]
+        }
+      ],
+      "request": {
+        "requests": [
+          {
+            "type": "batch",
+            "batch": {
+              "steps": [
+                {
+                  "stmt": {
+                    "sql": "BEGIN IMMEDIATE"
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "DELETE FROM my_table"
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 0
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "INSERT INTO my_table (id, name, salary) VALUE (@id, @name, @salary)",
+                    "named_args": [
+                      {
+                        "name": "id",
+                        "value": {
+                          "type": "integer",
+                          "value": "1"
+                        }
+                      },
+                      {
+                        "name": "name",
+                        "value": {
+                          "type": "text",
+                          "value": "john"
+                        }
+                      },
+                      {
+                        "name": "salary",
+                        "value": {
+                          "type": "float",
+                          "value": 1000.50
+                        }
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 1
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "UPDATE my_table SET name = ?, salary = ? WHERE id = ?",
+                    "args": [
+                      {
+                        "type": "text",
+                        "value": "john doe"
+                      },
+                      {
+                        "type": "float",
+                        "value": 1000.50
+                      },
+                      {
+                        "type": "integer",
+                        "value": "1"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 2
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "COMMIT"
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 3
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "ROLLBACK"
+                  },
+                  "condition": {
+                    "type": "not",
+                    "cond": {
+                      "type": "ok",
+                      "step": 4
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "name": "Batch statements with DEFERRED transaction (non-interactive)",
+      "transaction": 2,
+      "is_interactive": false,
+      "statements": [
+        {
+          "sql": "DELETE FROM my_table"
+        },
+        {
+          "sql": "INSERT INTO my_table (id, name, salary) VALUE (@id, @name, @salary)",
+          "named_args": [
+            {
+              "name": "id",
+              "type": "integer",
+              "value": 1,
+              "hrana_value": "1"
+            },
+            {
+              "name": "name",
+              "type": "text",
+              "value": "john"
+            },
+            {
+              "name": "salary",
+              "type": "float",
+              "value": 1000.50
+            }
+          ]
+        },
+        {
+          "sql": "UPDATE my_table SET name = ?, salary = ? WHERE id = ?",
+          "args": [
+            {
+              "name": "name",
+              "type": "text",
+              "value": "john doe"
+            },
+            {
+              "name": "salary",
+              "type": "float",
+              "value": 1000.50
+            },
+            {
+              "name": "id",
+              "type": "integer",
+              "value": 1,
+              "hrana_value": "1"
+            }
+          ]
+        }
+      ],
+      "request": {
+        "requests": [
+          {
+            "type": "batch",
+            "batch": {
+              "steps": [
+                {
+                  "stmt": {
+                    "sql": "BEGIN DEFERRED"
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "DELETE FROM my_table"
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 0
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "INSERT INTO my_table (id, name, salary) VALUE (@id, @name, @salary)",
+                    "named_args": [
+                      {
+                        "name": "id",
+                        "value": {
+                          "type": "integer",
+                          "value": "1"
+                        }
+                      },
+                      {
+                        "name": "name",
+                        "value": {
+                          "type": "text",
+                          "value": "john"
+                        }
+                      },
+                      {
+                        "name": "salary",
+                        "value": {
+                          "type": "float",
+                          "value": 1000.50
+                        }
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 1
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "UPDATE my_table SET name = ?, salary = ? WHERE id = ?",
+                    "args": [
+                      {
+                        "type": "text",
+                        "value": "john doe"
+                      },
+                      {
+                        "type": "float",
+                        "value": 1000.50
+                      },
+                      {
+                        "type": "integer",
+                        "value": "1"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 2
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "COMMIT"
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 3
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "ROLLBACK"
+                  },
+                  "condition": {
+                    "type": "not",
+                    "cond": {
+                      "type": "ok",
+                      "step": 4
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "name": "Batch statements with READONLY transaction (non-interactive)",
+      "transaction": 3,
+      "is_interactive": false,
+      "statements": [
+        {
+          "sql": "DELETE FROM my_table"
+        },
+        {
+          "sql": "INSERT INTO my_table (id, name, salary) VALUE (@id, @name, @salary)",
+          "named_args": [
+            {
+              "name": "id",
+              "type": "integer",
+              "value": 1,
+              "hrana_value": "1"
+            },
+            {
+              "name": "name",
+              "type": "text",
+              "value": "john"
+            },
+            {
+              "name": "salary",
+              "type": "float",
+              "value": 1000.50
+            }
+          ]
+        },
+        {
+          "sql": "UPDATE my_table SET name = ?, salary = ? WHERE id = ?",
+          "args": [
+            {
+              "name": "name",
+              "type": "text",
+              "value": "john doe"
+            },
+            {
+              "name": "salary",
+              "type": "float",
+              "value": 1000.50
+            },
+            {
+              "name": "id",
+              "type": "integer",
+              "value": 1,
+              "hrana_value": "1"
+            }
+          ]
+        }
+      ],
+      "request": {
+        "requests": [
+          {
+            "type": "batch",
+            "batch": {
+              "steps": [
+                {
+                  "stmt": {
+                    "sql": "BEGIN TRANSACTION READONLY"
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "DELETE FROM my_table"
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 0
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "INSERT INTO my_table (id, name, salary) VALUE (@id, @name, @salary)",
+                    "named_args": [
+                      {
+                        "name": "id",
+                        "value": {
+                          "type": "integer",
+                          "value": "1"
+                        }
+                      },
+                      {
+                        "name": "name",
+                        "value": {
+                          "type": "text",
+                          "value": "john"
+                        }
+                      },
+                      {
+                        "name": "salary",
+                        "value": {
+                          "type": "float",
+                          "value": 1000.50
+                        }
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 1
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "UPDATE my_table SET name = ?, salary = ? WHERE id = ?",
+                    "args": [
+                      {
+                        "type": "text",
+                        "value": "john doe"
+                      },
+                      {
+                        "type": "float",
+                        "value": 1000.50
+                      },
+                      {
+                        "type": "integer",
+                        "value": "1"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 2
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "COMMIT"
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 3
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "ROLLBACK"
+                  },
+                  "condition": {
+                    "type": "not",
+                    "cond": {
+                      "type": "ok",
+                      "step": 4
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    }
+  ]
+]

@@ -1,0 +1,45 @@
+{
+  "sql": "SELECT * FROM my_table;",
+  "request": {
+    "requests": [
+      {
+        "type": "execute",
+        "stmt": {
+          "sql": "SELECT * FROM my_table;"
+        }
+      },
+      {
+        "type": "close"
+      }
+    ]
+  },
+  "response": {
+    "baton": null,
+    "base_url": null,
+    "results": [
+      {
+        "type": "ok",
+        "response": {
+          "type": "execute",
+          "result": {
+            "cols": [],
+            "rows": [],
+            "affected_row_count": 0,
+            "last_insert_rowid": null,
+            "replication_index": "54",
+            "rows_read": 0,
+            "rows_written": 0,
+            "query_duration_ms": 0.1
+          }
+        }
+      },
+      {
+        "type": "ok",
+        "response": {
+          "type": "close"
+        }
+      }
+    ]
+  },
+  "expected": []
+}

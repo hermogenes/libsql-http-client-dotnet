@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSql.Http.Client", "src\LibSql.Http.Client\LibSql.Http.Client.csproj", "{21CBCC9D-5473-4EAA-87E3-AD6F53F20B1F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7B8E9954-6C36-4390-854C-8697425A779B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9F551CAC-A9F0-4E16-BA4F-AB8917455882}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSql.Http.Client.Tests", "test\LibSql.Http.Client.Tests\LibSql.Http.Client.Tests.csproj", "{5CBA11F0-D0C7-4091-B5A6-5D2DF03F6733}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSql.Http.Client.Benchmarks", "src\LibSql.Http.Client.Benchmarks\LibSql.Http.Client.Benchmarks.csproj", "{D551ACCE-4968-4B2D-A777-EAEDC3475D4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSql.Http.Client.DemoConsoleApp", "src\LibSql.Http.Client.DemoConsoleApp\LibSql.Http.Client.DemoConsoleApp.csproj", "{5F367772-DF1B-4AF0-8B30-03F07C996A4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21CBCC9D-5473-4EAA-87E3-AD6F53F20B1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21CBCC9D-5473-4EAA-87E3-AD6F53F20B1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21CBCC9D-5473-4EAA-87E3-AD6F53F20B1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21CBCC9D-5473-4EAA-87E3-AD6F53F20B1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CBA11F0-D0C7-4091-B5A6-5D2DF03F6733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CBA11F0-D0C7-4091-B5A6-5D2DF03F6733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CBA11F0-D0C7-4091-B5A6-5D2DF03F6733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CBA11F0-D0C7-4091-B5A6-5D2DF03F6733}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D551ACCE-4968-4B2D-A777-EAEDC3475D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D551ACCE-4968-4B2D-A777-EAEDC3475D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D551ACCE-4968-4B2D-A777-EAEDC3475D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D551ACCE-4968-4B2D-A777-EAEDC3475D4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F367772-DF1B-4AF0-8B30-03F07C996A4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F367772-DF1B-4AF0-8B30-03F07C996A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F367772-DF1B-4AF0-8B30-03F07C996A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F367772-DF1B-4AF0-8B30-03F07C996A4E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{21CBCC9D-5473-4EAA-87E3-AD6F53F20B1F} = {7B8E9954-6C36-4390-854C-8697425A779B}
+		{5CBA11F0-D0C7-4091-B5A6-5D2DF03F6733} = {9F551CAC-A9F0-4E16-BA4F-AB8917455882}
+		{D551ACCE-4968-4B2D-A777-EAEDC3475D4E} = {7B8E9954-6C36-4390-854C-8697425A779B}
+		{5F367772-DF1B-4AF0-8B30-03F07C996A4E} = {7B8E9954-6C36-4390-854C-8697425A779B}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,98 @@
+{
+  "sql": "SELECT * FROM my_table;",
+  "request": {
+    "requests": [
+      {
+        "type": "execute",
+        "stmt": {
+          "sql": "SELECT * FROM my_table;"
+        }
+      },
+      {
+        "type": "close"
+      }
+    ]
+  },
+  "response": {
+    "baton": null,
+    "base_url": null,
+    "results": [
+      {
+        "type": "ok",
+        "response": {
+          "type": "execute",
+          "result": {
+            "cols": [
+              {
+                "name": "id",
+                "decltype": "VARCHAR(50)"
+              },
+              {
+                "name": "salary",
+                "decltype": "NUMBER"
+              },
+              {
+                "name": "order",
+                "decltype": "INTEGER"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "type": "text",
+                  "value": "id-123"
+                },
+                {
+                  "type": "float",
+                  "value": 1000.5
+                },
+                {
+                  "type": "integer",
+                  "value": "1"
+                }
+              ],
+              [
+                {
+                  "type": "text",
+                  "value": "id-456"
+                },
+                {
+                  "type": "float",
+                  "value": 2000.5
+                },
+                {
+                  "type": "integer",
+                  "value": "2"
+                }
+              ]
+            ],
+            "affected_row_count": 0,
+            "last_insert_rowid": null,
+            "replication_index": "54",
+            "rows_read": 2,
+            "rows_written": 0,
+            "query_duration_ms": 0.1
+          }
+        }
+      },
+      {
+        "type": "ok",
+        "response": {
+          "type": "close"
+        }
+      }
+    ]
+  },
+  "expected": [
+    {
+      "id": "id-123",
+      "salary": 1000.5,
+      "order": 1
+    },
+    {
+      "id": "id-456",
+      "salary": 2000.5,
+      "order": 2
+    }
+  ]
+}

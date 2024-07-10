@@ -1,0 +1,17 @@
+---
+version: "3"
+
+tasks:
+  restore:
+    cmds:
+      - dotnet restore
+  build:
+    cmds:
+      - dotnet build --no-restore
+    deps:
+      - restore
+  default:
+    cmds:
+      - dotnet test --collect:"XPlat Code Coverage;Format=opencover,lcov,cobertura" --logger trx --no-build
+    deps:
+      - build

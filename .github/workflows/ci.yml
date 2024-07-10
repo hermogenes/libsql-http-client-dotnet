@@ -1,0 +1,101 @@
+name: Continuous Integration
+
+on:
+  workflow_dispatch:
+    inputs:
+      run-publish:
+        description: "Run publish job"
+        required: false
+        default: false
+        type: boolean
+  push:
+  pull_request:
+    branches:
+      - main
+  release:
+    types:
+      - published
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      packed-files: ${{ steps.packed-files.outputs.result }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test --configuration Release --collect:"XPlat Code Coverage;Format=opencover,lcov,cobertura" --logger trx --no-build
+
+      - name: Report results
+        uses: bibipkins/dotnet-test-reporter@v1.4.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-title: "Unit Test Results"
+          results-path: ./test/**/TestResults/*.trx
+          coverage-path: ./test/**/TestResults/**/coverage.opencover.xml
+          coverage-threshold: 80
+
+      - run: dotnet pack --configuration Release --output ${{ github.workspace }}/nuget
+
+      # Publish the NuGet package as an artifact, so they can be used in the following jobs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nuget
+          if-no-files-found: error
+          retention-days: 7
+          path: ${{ github.workspace }}/nuget/*.nupkg
+
+      - uses: actions/github-script@v7
+        id: packed-files
+        with:
+          script: |
+            const globber = await glob.create('${{ github.workspace }}/nuget/*.nupkg')
+            const files = await globber.glob()
+            return JSON.stringify(files.map(file => file.replace('${{ github.workspace }}/nuget/', '')))
+          result-encoding: string
+
+  publish:
+    if: ${{ github.event_name == 'release' || github.event.inputs.run-publish }}
+    runs-on: ubuntu-latest
+    name: Publish ${{ matrix.package }}
+    needs: build
+    strategy:
+      matrix:
+        package: ${{fromJson(needs.build.outputs.packed-files)}}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: nuget
+          path: ${{ github.workspace }}/nuget
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+
+      - name: Publish NuGet package
+        run: dotnet nuget push ${{ github.workspace }}/nuget/${{matrix.package}}  --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate

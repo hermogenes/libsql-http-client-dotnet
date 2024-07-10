@@ -1,0 +1,208 @@
+[
+  [
+    {
+      "name": "Execute statement with transaction (non-interactive)",
+      "transaction": 1,
+      "is_interactive": false,
+      "statements": [
+        {
+          "sql": "DELETE FROM my_table"
+        }
+      ],
+      "request": {
+        "requests": [
+          {
+            "type": "batch",
+            "batch": {
+              "steps": [
+                {
+                  "stmt": {
+                    "sql": "BEGIN IMMEDIATE"
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "DELETE FROM my_table"
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 0
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "COMMIT"
+                  },
+                  "condition": {
+                    "type": "ok",
+                    "step": 1
+                  }
+                },
+                {
+                  "stmt": {
+                    "sql": "ROLLBACK"
+                  },
+                  "condition": {
+                    "type": "not",
+                    "cond": {
+                      "type": "ok",
+                      "step": 2
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "name": "Execute statement without args",
+      "transaction": 0,
+      "statements": [
+        {
+          "sql": "SELECT * FROM my_table"
+        }
+      ],
+      "request": {
+        "requests": [
+          {
+            "type": "execute",
+            "stmt": {
+              "sql": "SELECT * FROM my_table"
+            }
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "name": "Execute statement with positional args",
+      "transaction": 0,
+      "statements": [
+        {
+          "sql": "SELECT * FROM my_table WHERE id = ? AND name = ? AND salary > ?",
+          "args": [
+            {
+              "name": "id",
+              "type": "integer",
+              "value": 1,
+              "hrana_value": "1"
+            },
+            {
+              "name": "name",
+              "type": "text",
+              "value": "john"
+            },
+            {
+              "name": "salary",
+              "type": "float",
+              "value": 1000.50
+            }
+          ]
+        }
+      ],
+      "request": {
+        "requests": [
+          {
+            "type": "execute",
+            "stmt": {
+              "sql": "SELECT * FROM my_table WHERE id = ? AND name = ? AND salary > ?",
+              "args": [
+                {
+                  "type": "integer",
+                  "value": "1"
+                },
+                {
+                  "type": "text",
+                  "value": "john"
+                },
+                {
+                  "type": "float",
+                  "value": 1000.50
+                }
+              ]
+            }
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "name": "Execute statement with named args",
+      "transaction": 0,
+      "statements": [
+        {
+          "sql": "SELECT * FROM my_table WHERE id = @id AND name = @name AND salary > @salary",
+          "named_args": [
+            {
+              "name": "id",
+              "type": "integer",
+              "value": 1,
+              "hrana_value": "1"
+            },
+            {
+              "name": "name",
+              "type": "text",
+              "value": "john"
+            },
+            {
+              "name": "salary",
+              "type": "float",
+              "value": 1000.50
+            }
+          ]
+        }
+      ],
+      "request": {
+        "requests": [
+          {
+            "type": "execute",
+            "stmt": {
+              "sql": "SELECT * FROM my_table WHERE id = @id AND name = @name AND salary > @salary",
+              "named_args": [
+                {
+                  "name": "id",
+                  "value": {
+                    "type": "integer",
+                    "value": "1"
+                  }
+                },
+                {
+                  "name": "name",
+                  "value": {
+                    "type": "text",
+                    "value": "john"
+                  }
+                },
+                {
+                  "name": "salary",
+                  "value": {
+                    "type": "float",
+                    "value": 1000.50
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "type": "close"
+          }
+        ]
+      }
+    }
+  ]
+]
