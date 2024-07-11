@@ -877,3 +877,6 @@ Temporary Items
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,rider,intellij,jetbrains,macos,visualstudiocode,visualstudio,csharp
 
 .vscode
+**/.vitepress/cache
+.vitepress/cache
+dist

@@ -1,0 +1,48 @@
+:root {
+  --vp-c-brand-1: #0f4f62;
+  --vp-c-brand-2: #4ff8d2;
+  --vp-c-brand-3: #4ff8d2;
+  --vp-button-brand-text: #121b22;
+  --vp-button-alt-border: #4ff8d2;
+  --nuget-logo-filter: brightness(0);
+  --nuget-logo-opacity: 0.65;
+  --nuget-logo-hover-opacity: 1;
+}
+
+.dark {
+  --vp-c-brand-1: #4ff8d2;
+  --vp-c-brand-2: #0f4f62;
+  --vp-c-bg: #121b22;
+  --nuget-logo-filter: brightness(0) invert(1);
+  --nuget-logo-opacity: 0.5;
+  --nuget-logo-hover-opacity: 0.8;
+}
+
+.nuget-logo {
+  width: 20px;
+  filter: var(--nuget-logo-filter);
+  opacity: var(--nuget-logo-opacity);
+}
+
+a:hover .nuget-logo {
+  opacity: var(--nuget-logo-hover-opacity);
+}
+
+.VPSidebarItem.level-0.debug .items,
+.VPSidebarItem.level-1 .items,
+.VPSidebarItem.level-2 .items,
+.VPSidebarItem.level-3 .items,
+.VPSidebarItem.level-4 .items,
+.VPSidebarItem.level-5 .items {
+  border-left: 1px solid var(--vp-c-divider);
+  padding-left: 16px;
+}
+
+.VPSidebarItem.level-0.is-active.debug > .item > .indicator,
+.VPSidebarItem.level-1.is-active.debug > .item > .indicator,
+.VPSidebarItem.level-2.is-active > .item > .indicator,
+.VPSidebarItem.level-3.is-active > .item > .indicator,
+.VPSidebarItem.level-4.is-active > .item > .indicator,
+.VPSidebarItem.level-5.is-active > .item > .indicator {
+  background-color: var(--vp-c-brand-1);
+}

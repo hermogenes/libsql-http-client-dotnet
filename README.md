@@ -5,6 +5,8 @@ An alternative [libSQL](https://github.com/tursodatabase/libsql) .NET client, su
 > [!WARNING]
 > This is not an official libSQL client
 
+[![Continuous Integration](https://github.com/hermogenes/libsql-http-client-dotnet/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/hermogenes/libsql-http-client-dotnet/actions/workflows/ci.yml) [![NuGet](https://img.shields.io/nuget/dt/LibSql.Http.Client.svg)](https://www.nuget.org/stats/packages/LibSql.Http.Client?groupby=Version) [![NuGet](https://img.shields.io/nuget/vpre/LibSql.Http.Client.svg)](https://www.nuget.org/packages/LibSql.Http.Client/)
+
 ## About
 
 This client is a .NET implementation of HRANA protocol, intented to communicate with libSQL server.
@@ -14,6 +16,14 @@ This lib is inspired by [libsql-stateless-easy](https://github.com/DaBigBlob/lib
 ## Requirements
 
 - .NET 8 (6 and 7 are supported as well)
+
+## Installation
+
+Install [Nuget](https://www.nuget.org/packages/LibSql.Http.Client/) package:
+
+```sh
+dotnet add package LibSql.Http.Client
+```
 
 ## Usage
 

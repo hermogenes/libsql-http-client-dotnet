@@ -35,7 +35,7 @@ public sealed class LibSqlHttpClient : ILibSqlHttpClient
     ///             PooledConnectionLifetime = TimeSpan.FromMinutes(15) // Recreate every 15 minutes
     ///         };
     ///         var sharedClient = new HttpClient(handler);
-    ///         var libSqlClient = new LibSqlHttpClient(sharedClient, "https://db.host.com", "YOUR_AUTH_TOKEN");
+    ///         var libSqlClient = new LibSqlHttpClient(sharedClient, new Uri("https://db.host.com"), "YOUR_AUTH_TOKEN");
     ///     </code>
     ///     or
     ///     <code>
