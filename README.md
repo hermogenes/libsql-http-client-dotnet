@@ -42,6 +42,8 @@ var sharedClient = new HttpClient(handler);
 var libSqlClient = new LibSqlHttpClient(sharedClient, new Uri("http://localhost:8080"));
 ```
 
+## [Check the Docs for more](https://libsql-http-client-dotnet.pages.dev/)
+
 ## Features
 
 - ✅ Single and batch commands
