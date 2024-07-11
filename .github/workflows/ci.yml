@@ -51,6 +51,7 @@ jobs:
 
       - name: Report results
         uses: bibipkins/dotnet-test-reporter@v1.4.1
+        continue-on-error: true
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           comment-title: "Unit Test Results"
