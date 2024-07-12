@@ -22,7 +22,7 @@ public class RequestSerializerTests
     {
         var statement = scenario.Statements[0].ToStatement();
 
-        var output = RequestSerializer.Serialize(
+        var output = await RequestSerializer.Serialize(
             [statement],
             scenario.Transaction,
             scenario.Baton,
@@ -39,7 +39,7 @@ public class RequestSerializerTests
     [JsonFileData("Data/batch.json")]
     public async Task CheckBatchSerialization(SerializationTestScenario scenario)
     {
-        var output = RequestSerializer.Serialize(
+        var output = await RequestSerializer.Serialize(
             scenario.Statements.Select(s => s.ToStatement()).ToArray(),
             scenario.Transaction,
             scenario.Baton,

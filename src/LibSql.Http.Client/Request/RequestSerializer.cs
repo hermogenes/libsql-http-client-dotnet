@@ -15,7 +15,7 @@ internal static class RequestSerializer
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
     };
 
-    internal static HttpContent Serialize(
+    internal static async Task<HttpContent> Serialize(
         Statement[] statements,
         TransactionMode transactionMode,
         string? baton = null,
@@ -23,7 +23,7 @@ internal static class RequestSerializer
     {
         var stream = new MemoryStream(256);
 
-        using var writer = new Utf8JsonWriter(stream, WriterOptions);
+        await using var writer = new Utf8JsonWriter(stream, WriterOptions);
 
         writer.WriteStartObject();
 
@@ -42,7 +42,7 @@ internal static class RequestSerializer
 
         writer.WriteEndObject();
 
-        writer.Flush();
+        await writer.FlushAsync();
 
         stream.Seek(0, SeekOrigin.Begin);
 

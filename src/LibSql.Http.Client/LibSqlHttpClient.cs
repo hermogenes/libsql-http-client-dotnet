@@ -207,7 +207,7 @@ public sealed class LibSqlHttpClient : ILibSqlHttpClient
         bool disposeReader,
         CancellationToken cancellationToken)
     {
-        using var content = RequestSerializer.Serialize(statements, transactionMode);
+        using var content = await RequestSerializer.Serialize(statements, transactionMode);
 
         using var res = await SendRequestAsync(content, cancellationToken);
 
