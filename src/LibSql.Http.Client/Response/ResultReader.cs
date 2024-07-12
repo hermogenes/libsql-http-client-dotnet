@@ -138,8 +138,10 @@ internal class ResultReader(
         HashSet<int>? resultsToIgnore = null,
         CancellationToken cancellationToken = default)
     {
-        using var stream = new MemoryStream();
-        await content.CopyToAsync(stream, cancellationToken);
+        await content.LoadIntoBufferAsync();
+
+        await using var stream = await content.ReadAsStreamAsync(cancellationToken);
+
         stream.Seek(0, SeekOrigin.Begin);
 
         return await ParseAsync(stream, resultsToIgnore, cancellationToken);
