@@ -1,3 +1,4 @@
+using System.Net;
 using DotNet.Testcontainers;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
@@ -7,7 +8,9 @@ namespace LibSql.Http.Client.Tests.Integration;
 
 public abstract class TestWithContainersBase : IAsyncDisposable
 {
-    private readonly HttpMessageHandler _handler = new SocketsHttpHandler();
+    private readonly HttpMessageHandler _handler = new SocketsHttpHandler
+        { AutomaticDecompression = DecompressionMethods.All };
+
     private readonly IContainer _libSqlContainer;
     protected readonly ProductTestData TestData;
     private HttpClient _httpClient = new();

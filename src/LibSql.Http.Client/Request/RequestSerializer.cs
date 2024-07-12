@@ -2,7 +2,6 @@ using System.Buffers.Text;
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using LibSql.Http.Client.Buffer;
 
 namespace LibSql.Http.Client.Request;
 
@@ -22,7 +21,7 @@ internal static class RequestSerializer
         string? baton = null,
         bool isInteractive = false)
     {
-        using var stream = new PooledByteBufferWriter();
+        var stream = new MemoryStream(256);
 
         using var writer = new Utf8JsonWriter(stream, WriterOptions);
 
@@ -45,7 +44,9 @@ internal static class RequestSerializer
 
         writer.Flush();
 
-        return new ReadOnlyMemoryContent(stream.WrittenMemory.ToArray())
+        stream.Seek(0, SeekOrigin.Begin);
+
+        return new StreamContent(stream)
         {
             Headers = { ContentType = ContentTypeHeaderValue }
         };

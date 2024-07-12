@@ -239,7 +239,8 @@ public sealed class LibSqlHttpClient : ILibSqlHttpClient
         {
             var request = new HttpRequestMessage(HttpMethod.Post, _pipelineUri)
             {
-                Content = content
+                Content = content,
+                Version = new Version(2, 0)
             };
 
             if (_authHeaderValue is not null)
