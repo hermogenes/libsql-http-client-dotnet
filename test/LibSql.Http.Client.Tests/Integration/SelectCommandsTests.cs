@@ -8,6 +8,16 @@ namespace LibSql.Http.Client.Tests.Integration;
 public class SelectCommandsTests() : TestWithContainersBase("products_select_commands_scenarios")
 {
     [Fact]
+    public async Task CheckHealth()
+    {
+        await InitializeContainer();
+
+        var isHealth = await LibSqlClient.HealthCheckAsync();
+
+        isHealth.Should().BeTrue();
+    }
+    
+    [Fact]
     public async Task CheckSelectAll()
     {
         await InitializeContainer();

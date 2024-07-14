@@ -145,4 +145,11 @@ public interface ILibSqlHttpClient
         Statement[] statements,
         TransactionMode transactionMode = TransactionMode.None,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Check if the connection to libSQL server is healthy 
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task<bool> HealthCheckAsync(CancellationToken cancellationToken = default);
 }
