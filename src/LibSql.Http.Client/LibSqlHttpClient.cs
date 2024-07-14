@@ -11,11 +11,12 @@ namespace LibSql.Http.Client;
 public sealed class LibSqlHttpClient : ILibSqlHttpClient
 {
     private const string PipelineV3Path = "/v3/pipeline";
+    private const string HealthPath = "/health";
     private readonly AuthenticationHeaderValue? _authHeaderValue;
 
     private readonly HttpClient _httpClient;
     private readonly Uri _pipelineUri;
-    private readonly Uri _baseUri;
+    private readonly string _healthUri;
 
     /// <summary>
     ///     Creates a new instance of <see cref="LibSqlHttpClient" />.
@@ -71,7 +72,7 @@ public sealed class LibSqlHttpClient : ILibSqlHttpClient
                 "URL not set. Please provide a URL either in the constructor or as a parameter or via HttpClient.BaseAddress.");
 
         _pipelineUri = new Uri(url, PipelineV3Path);
-        _baseUri = url;
+        _healthUri = new Uri(url, HealthPath).ToString();
 
         _httpClient = httpClient;
 
@@ -192,7 +193,7 @@ public sealed class LibSqlHttpClient : ILibSqlHttpClient
     /// <inheritdoc />
     public async Task<bool> HealthCheckAsync(CancellationToken cancellationToken = default)
     {
-        var res = await _httpClient.GetAsync("/health", HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+        using var res = await _httpClient.GetAsync(_healthUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
 
         return res.IsSuccessStatusCode;
     }
