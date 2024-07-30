@@ -41,7 +41,7 @@ internal class ResultReader(
     public void ThrowIfError()
     {
         if (errors.Length > 0)
-            throw new LibSqlClientException(errors);
+            throw new LibSqlClientExecutionException(errors);
     }
 
     public bool HasMoreResults()

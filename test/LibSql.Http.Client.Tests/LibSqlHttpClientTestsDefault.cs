@@ -18,7 +18,7 @@ public class LibSqlHttpClientTestsDefault
 
         action.Should().ThrowExactly<ArgumentNullException>();
     }
-    
+
     [Theory]
     [JsonFileData("Data/execute-response-no-error-no-result.json", true)]
     public void ShouldAllowUseDifferentCredentials(JsonElement response)
@@ -29,7 +29,7 @@ public class LibSqlHttpClientTestsDefault
 
         handler.LastSentRequest!.Uri.Should().Be("https://another.libsql.test/v3/pipeline");
     }
-    
+
     [Theory]
     [JsonFileData("Data/execute-response-with-error.json", true)]
     public async Task ShouldThrowExceptionIfResultContainsError(
@@ -43,7 +43,7 @@ public class LibSqlHttpClientTestsDefault
             sql,
             TestDataJsonSerializerContext.Default.ResultSetTestModel);
 
-        await action.Should().ThrowExactlyAsync<LibSqlClientException>();
+        await action.Should().ThrowExactlyAsync<LibSqlClientExecutionException>();
         handler.LastSentRequest.Should().NotBeNull();
         handler.LastSentRequest!.Body.Should().BeEquivalentTo(JsonSerializer.Serialize(request));
     }
@@ -240,14 +240,17 @@ public class LibSqlHttpClientTestsDefault
     {
         var (_, client) = CreateClient(response);
 
-        var result = await client.QueryMultipleAsync(["SELECT * FROM table1", "SELECT * FROM TABLE 2"], TransactionMode.WriteImmediate);
+        var result = await client.QueryMultipleAsync(
+            ["SELECT * FROM table1", "SELECT * FROM TABLE 2"],
+            TransactionMode.WriteImmediate);
 
         result.Count.Should().Be(expected.Length);
 
         for (var i = 0; i < expected.Length; i++)
         {
             result.HasMoreResults().Should().BeTrue();
-            result.Read(TestDataJsonSerializerContext.Default.ResultSetTestModel).ToList().Should().BeEquivalentTo(expected[i]);
+            result.Read(TestDataJsonSerializerContext.Default.ResultSetTestModel).ToList().Should()
+                .BeEquivalentTo(expected[i]);
         }
 
         result.HasMoreResults().Should().BeFalse();

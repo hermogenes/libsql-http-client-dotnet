@@ -38,7 +38,7 @@ public class RollbackTests() : TestWithContainersBase("products_rollback_scenari
 
         var failingAction = () => LibSqlClient.ExecuteMultipleAsync(statements, TransactionMode.WriteImmediate);
 
-        await failingAction.Should().ThrowExactlyAsync<LibSqlClientException>();
+        await failingAction.Should().ThrowExactlyAsync<LibSqlClientExecutionException>();
 
         var afterCount = await LibSqlClient.ExecuteScalarAsync(TestData.CountSql);
 
